@@ -195,7 +195,7 @@ function findSourceRecursive(dir){
                   ,'-or', '-name', '*.s'
                   ,'-or', '-name', '*.S'
                   ,'-or', '-name', '*.c'
-                  ,'-or', '-name', '*.inl'
+                  ,'-or', '-name', '*.inl'];
                   ,'-or', '-name', '*.glsl'
                   ,'-or', '-name', '*.vert'
                   ,'-or', '-name', '*.frag'];

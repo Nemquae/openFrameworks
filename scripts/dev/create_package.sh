@@ -176,6 +176,7 @@ function createPackage {
 	#delete ios examples in other platforms
 	if [ "$pkg_platform" != "ios" ]; then 
 		rm -Rf ios
+		rm -Rf tvOS
 	fi
 
 	#delete android examples in other platforms
@@ -186,18 +187,20 @@ function createPackage {
 	#delete desktop examples in mobile packages
 	if [ "$pkg_platform" == "android" ] || [ "$pkg_platform" == "ios" ]; then 
 		rm -Rf 3d
-		rm -Rf addons
 		rm -Rf communication
-		rm -Rf empty
+		rm -Rf computer_vision
 		rm -Rf events
 		rm -Rf gl
 		rm -Rf gles
 		rm -Rf graphics
 		rm -Rf gui
+		rm -Rf input_output
 		rm -Rf math
-        rm -Rf shader
+		rm -Rf shader
 		rm -Rf sound
-		rm -Rf utils
+		rm -Rf strings
+		rm -Rf templates
+		rm -Rf threads
 		rm -Rf video
 	fi 
 	
@@ -561,7 +564,7 @@ function createPackage {
     elif [ "$pkg_platform" = "ios" ]; then
         cp -r examples/ios/emptyExample apps/myApps/
     else
-        cp -r examples/empty/emptyExample apps/myApps/
+        cp -r examples/templates/emptyExample apps/myApps/
     fi
     
     #create compressed package
