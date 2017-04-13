@@ -1182,6 +1182,7 @@
 					"\"$(SRCROOT)/../../../tess2/lib/ios\"",
 					"\"$(SRCROOT)/../../../poco/lib/ios\"",
 				);
+				OTHER_CPLUSPLUSFLAGS = "-D__MACOSX_CORE__";
 				PRODUCT_NAME = "ofxiOS_${PLATFORM_NAME}_Debug";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

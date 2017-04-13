@@ -15,57 +15,55 @@
 
 
 /*
-
  See
  http://www.gandogames.com/2010/07/tutorial-using-anti-aliasing-msaa-in-the-iphone/
  and
  http://stackoverflow.com/questions/3340189/how-do-you-activate-multisampling-in-opengl-es-on-the-iphone
  for multisampling on iphone
-
  */
 
 #ifdef TARGET_OPENGLES
-	bool ofFbo::bglFunctionsInitialized=false;
-	
-	typedef void (* glGenFramebuffersType) (GLsizei n, GLuint* framebuffers);
-	glGenFramebuffersType glGenFramebuffersFunc;
-	#define glGenFramebuffers								glGenFramebuffersFunc
+bool ofFbo::bglFunctionsInitialized=false;
 
-	typedef void (* glDeleteFramebuffersType) (GLsizei n, const GLuint* framebuffers);
-	glDeleteFramebuffersType glDeleteFramebuffersFunc;
-	#define	glDeleteFramebuffers							glDeleteFramebuffersFunc
+typedef void (* glGenFramebuffersType) (GLsizei n, GLuint* framebuffers);
+glGenFramebuffersType glGenFramebuffersFunc;
+#define glGenFramebuffers								glGenFramebuffersFunc
 
-	typedef void (* glDeleteRenderbuffersType) (GLsizei n, const GLuint* renderbuffers);
-	glDeleteRenderbuffersType glDeleteRenderbuffersFunc;
-	#define	glDeleteRenderbuffers							glDeleteRenderbuffersFunc
+typedef void (* glDeleteFramebuffersType) (GLsizei n, const GLuint* framebuffers);
+glDeleteFramebuffersType glDeleteFramebuffersFunc;
+#define	glDeleteFramebuffers							glDeleteFramebuffersFunc
 
-	typedef void (* glBindFramebufferType) (GLenum target, GLuint framebuffer);
-	glBindFramebufferType glBindFramebufferFunc;
-	#define	glBindFramebuffer								glBindFramebufferFunc
+typedef void (* glDeleteRenderbuffersType) (GLsizei n, const GLuint* renderbuffers);
+glDeleteRenderbuffersType glDeleteRenderbuffersFunc;
+#define	glDeleteRenderbuffers							glDeleteRenderbuffersFunc
 
-	typedef void (* glBindRenderbufferType) (GLenum target, GLuint renderbuffer);
-	glBindRenderbufferType glBindRenderbufferFunc;
-	#define	glBindRenderbuffer								glBindRenderbufferFunc
+typedef void (* glBindFramebufferType) (GLenum target, GLuint framebuffer);
+glBindFramebufferType glBindFramebufferFunc;
+#define	glBindFramebuffer								glBindFramebufferFunc
 
-	typedef void (* glRenderbufferStorageType) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-	glRenderbufferStorageType glRenderbufferStorageFunc;
-	#define glRenderbufferStorage							glRenderbufferStorageFunc
+typedef void (* glBindRenderbufferType) (GLenum target, GLuint renderbuffer);
+glBindRenderbufferType glBindRenderbufferFunc;
+#define	glBindRenderbuffer								glBindRenderbufferFunc
 
-	typedef void (* glFramebufferRenderbufferType) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-	glFramebufferRenderbufferType glFramebufferRenderbufferFunc;
-	#define glFramebufferRenderbuffer						glFramebufferRenderbufferFunc
+typedef void (* glRenderbufferStorageType) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+glRenderbufferStorageType glRenderbufferStorageFunc;
+#define glRenderbufferStorage							glRenderbufferStorageFunc
 
-	typedef void (* glRenderbufferStorageMultisampleType) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
-	glRenderbufferStorageMultisampleType glRenderbufferStorageMultisampleFunc;
-	#define glRenderbufferStorageMultisample				glRenderbufferStorageMultisampleFunc
+typedef void (* glFramebufferRenderbufferType) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+glFramebufferRenderbufferType glFramebufferRenderbufferFunc;
+#define glFramebufferRenderbuffer						glFramebufferRenderbufferFunc
 
-	typedef void (* glFramebufferTexture2DType) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-	glFramebufferTexture2DType glFramebufferTexture2DFunc;
-	#define glFramebufferTexture2D							glFramebufferTexture2DFunc
+typedef void (* glRenderbufferStorageMultisampleType) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+glRenderbufferStorageMultisampleType glRenderbufferStorageMultisampleFunc;
+#define glRenderbufferStorageMultisample				glRenderbufferStorageMultisampleFunc
 
-	typedef GLenum (* glCheckFramebufferStatusType)  (GLenum target);
-	glCheckFramebufferStatusType glCheckFramebufferStatusFunc;
-	#define glCheckFramebufferStatus						glCheckFramebufferStatusFunc
+typedef void (* glFramebufferTexture2DType) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+glFramebufferTexture2DType glFramebufferTexture2DFunc;
+#define glFramebufferTexture2D							glFramebufferTexture2DFunc
+
+typedef GLenum (* glCheckFramebufferStatusType)  (GLenum target);
+glCheckFramebufferStatusType glCheckFramebufferStatusFunc;
+#define glCheckFramebufferStatus						glCheckFramebufferStatusFunc
 #endif
 
 
@@ -269,7 +267,7 @@ bIsAllocated(false)
 ofFbo::ofFbo(const ofFbo & mom){
 	settings = mom.settings;
 	bIsAllocated = mom.bIsAllocated;
-
+	
 	fbo = mom.fbo;
 	retainFB(fbo);
 	fboTextures = mom.fboTextures;
@@ -284,7 +282,7 @@ ofFbo::ofFbo(const ofFbo & mom){
 	}
 	stencilBuffer = mom.stencilBuffer;
 	retainRB(stencilBuffer);
-
+	
 	colorBuffers = mom.colorBuffers;
 	for(int i=0;i<(int)colorBuffers.size();i++){
 		retainRB(colorBuffers[i]);
@@ -292,12 +290,12 @@ ofFbo::ofFbo(const ofFbo & mom){
 	textures = mom.textures;
 	dirty = mom.dirty;
 	defaultTextureIndex = mom.defaultTextureIndex;
-    activeDrawBuffers = mom.activeDrawBuffers;
-    if(fbo!=0){
-    #ifdef TARGET_ANDROID
-        ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
-    #endif
-    }
+	activeDrawBuffers = mom.activeDrawBuffers;
+	if(fbo!=0){
+#ifdef TARGET_ANDROID
+		ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
+#endif
+	}
 }
 
 //--------------------------------------------------------------
@@ -306,22 +304,22 @@ ofFbo & ofFbo::operator=(const ofFbo & mom){
 	clear();
 	settings = mom.settings;
 	bIsAllocated = mom.bIsAllocated;
-
+	
 	fbo = mom.fbo;
 	retainFB(fbo);
 	fboTextures = mom.fboTextures;
 	if(settings.numSamples){
 		retainFB(fboTextures);
-    }
-    if(mom.settings.depthStencilAsTexture){
-        depthBufferTex = mom.depthBufferTex;
-    }else{
-        depthBuffer = mom.depthBuffer;
+	}
+	if(mom.settings.depthStencilAsTexture){
+		depthBufferTex = mom.depthBufferTex;
+	}else{
+		depthBuffer = mom.depthBuffer;
 		retainRB(depthBuffer);
 	}
 	stencilBuffer = mom.stencilBuffer;
 	retainRB(stencilBuffer);
-
+	
 	colorBuffers = mom.colorBuffers;
 	for(int i=0;i<(int)colorBuffers.size();i++){
 		retainRB(colorBuffers[i]);
@@ -329,12 +327,12 @@ ofFbo & ofFbo::operator=(const ofFbo & mom){
 	textures = mom.textures;
 	dirty = mom.dirty;
 	defaultTextureIndex = mom.defaultTextureIndex;
-    activeDrawBuffers = mom.activeDrawBuffers;
-    if(fbo!=0){
-    #ifdef TARGET_ANDROID
-        ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
-    #endif
-    }
+	activeDrawBuffers = mom.activeDrawBuffers;
+	if(fbo!=0){
+#ifdef TARGET_ANDROID
+		ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
+#endif
+	}
 	return *this;
 }
 
@@ -351,47 +349,47 @@ ofFbo::ofFbo(ofFbo && mom)
 ,dirty(std::move(mom.dirty))
 ,defaultTextureIndex(std::move(mom.defaultTextureIndex))
 ,bIsAllocated(std::move(mom.bIsAllocated)){
-    if(fbo!=0){
-    #ifdef TARGET_ANDROID
-        ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
-    #endif
-    }
-    mom.fbo = 0;
-    mom.depthBuffer = 0;
-    mom.fboTextures = 0;
-    mom.stencilBuffer = 0;
+	if(fbo!=0){
+#ifdef TARGET_ANDROID
+		ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
+#endif
+	}
+	mom.fbo = 0;
+	mom.depthBuffer = 0;
+	mom.fboTextures = 0;
+	mom.stencilBuffer = 0;
 }
 
 ofFbo & ofFbo::operator=(ofFbo && mom){
-    if(&mom==this) return *this;
-    clear();
-    settings = std::move(mom.settings);
-    bIsAllocated = std::move(mom.bIsAllocated);
-
-    fbo = mom.fbo;
-    fboTextures = mom.fboTextures;
-    if(mom.settings.depthStencilAsTexture){
-        depthBufferTex = std::move(mom.depthBufferTex);
-    }else{
-        depthBuffer = mom.depthBuffer;
-    }
-    stencilBuffer = std::move(mom.stencilBuffer);
-
-    colorBuffers = std::move(mom.colorBuffers);
-    textures = std::move(mom.textures);
-    dirty = std::move(mom.dirty);
-    defaultTextureIndex = std::move(mom.defaultTextureIndex);
-
-    if(fbo!=0){
-    #ifdef TARGET_ANDROID
-        ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
-    #endif
-    }
-    mom.fbo = 0;
-    mom.depthBuffer = 0;
-    mom.fboTextures = 0;
-    mom.stencilBuffer = 0;
-    return *this;
+	if(&mom==this) return *this;
+	clear();
+	settings = std::move(mom.settings);
+	bIsAllocated = std::move(mom.bIsAllocated);
+	
+	fbo = mom.fbo;
+	fboTextures = mom.fboTextures;
+	if(mom.settings.depthStencilAsTexture){
+		depthBufferTex = std::move(mom.depthBufferTex);
+	}else{
+		depthBuffer = mom.depthBuffer;
+	}
+	stencilBuffer = std::move(mom.stencilBuffer);
+	
+	colorBuffers = std::move(mom.colorBuffers);
+	textures = std::move(mom.textures);
+	dirty = std::move(mom.dirty);
+	defaultTextureIndex = std::move(mom.defaultTextureIndex);
+	
+	if(fbo!=0){
+#ifdef TARGET_ANDROID
+		ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
+#endif
+	}
+	mom.fbo = 0;
+	mom.depthBuffer = 0;
+	mom.fboTextures = 0;
+	mom.stencilBuffer = 0;
+	return *this;
 }
 
 //--------------------------------------------------------------
@@ -468,17 +466,17 @@ bool ofFbo::checkGLSupport() {
 			return false;
 		}
 	}
-
+	
 	glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &_maxColorAttachments);
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &_maxDrawBuffers);
 	glGetIntegerv(GL_MAX_SAMPLES, &_maxSamples);
-
+	
 	ofLogVerbose("ofFbo") << "checkGLSupport(): "
-                          << "maxColorAttachments: " << _maxColorAttachments << ", "
-                          << "maxDrawBuffers: " << _maxDrawBuffers << ", "
-                          << "maxSamples: " << _maxSamples;
+	<< "maxColorAttachments: " << _maxColorAttachments << ", "
+	<< "maxDrawBuffers: " << _maxDrawBuffers << ", "
+	<< "maxSamples: " << _maxSamples;
 #else
-
+	
 	if(ofIsGLProgrammableRenderer() || ofGLCheckExtension("GL_OES_framebuffer_object")){
 		ofLogVerbose("ofFbo") << "GL frame buffer object supported";
 	}else{
@@ -486,38 +484,45 @@ bool ofFbo::checkGLSupport() {
 		return false;
 	}
 #endif
-
+	
 	return true;
 }
 
 
 //--------------------------------------------------------------
 void ofFbo::allocate(int width, int height, int internalformat, int numSamples) {
-
+	
 	settings.width			= width;
 	settings.height			= height;
 	settings.internalformat	= internalformat;
 	settings.numSamples		= numSamples;
-    
+	
 #ifdef TARGET_OPENGLES
 	settings.useDepth		= false;
 	settings.useStencil		= false;
 	//we do this as the fbo and the settings object it contains could be created before the user had the chance to disable or enable arb rect.
-    settings.textureTarget	= GL_TEXTURE_2D;
-#else    
+	settings.textureTarget	= GL_TEXTURE_2D;
+#else
 	settings.useDepth		= true;
 	settings.useStencil		= true;
-	//we do this as the fbo and the settings object it contains could be created before the user had the chance to disable or enable arb rect. 	
-    settings.textureTarget	= ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;    
-#endif 
-    
+	//we do this as the fbo and the settings object it contains could be created before the user had the chance to disable or enable arb rect.
+	settings.textureTarget	= ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
+#endif
+	
 	allocate(settings);
 }
 
 //--------------------------------------------------------------
 void ofFbo::allocate(Settings _settings) {
 	if(!checkGLSupport()) return;
-
+	
+#ifdef DEBUG_GL_ERRORS
+	stringstream ss;
+	ss << "GL Error ofFbo.allocate 1 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	clear();
 	auto renderer = _settings.renderer.lock();
 	if(renderer){
@@ -525,7 +530,7 @@ void ofFbo::allocate(Settings _settings) {
 	}else{
 		settings.renderer = ofGetGLRenderer();
 	}
-
+	
 	// check that passed values are correct
 	if(_settings.width <= 0 || _settings.height <= 0){
 		ofLogError("ofFbo") << "width and height have to be more than 0";
@@ -534,62 +539,97 @@ void ofFbo::allocate(Settings _settings) {
 		ofLogWarning("ofFbo") << "allocate(): clamping numSamples " << _settings.numSamples << " to maxSamples " << maxSamples() << " for frame buffer object" << fbo;
 		_settings.numSamples = maxSamples();
 	}
-
+	
 	if(_settings.depthStencilAsTexture && _settings.numSamples){
 		ofLogWarning("ofFbo") << "allocate(): multisampling not supported with depthStencilAsTexture, setting 0 samples for frame buffer object " << fbo;
 		_settings.numSamples = 0;
 	}
-
-	//currently depth only works if stencil is enabled. 
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 2 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
+	//currently depth only works if stencil is enabled.
 	// http://forum.openframeworks.cc/index.php/topic,6837.0.html
 #ifdef TARGET_OPENGLES
 	if(_settings.useDepth){
-	  	_settings.useStencil = true;
+		_settings.useStencil = true;
 	}
-    if( _settings.depthStencilAsTexture ){
-        _settings.depthStencilAsTexture = false;
-        ofLogWarning("ofFbo") << "allocate(): depthStencilAsTexture is not available for iOS";
-    }
+	if( _settings.depthStencilAsTexture ){
+		_settings.depthStencilAsTexture = false;
+		ofLogWarning("ofFbo") << "allocate(): depthStencilAsTexture is not available for iOS";
+	}
 #endif
-    
+	
 	GLenum depthAttachment = GL_DEPTH_ATTACHMENT;
-
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 3 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	if( _settings.useDepth && _settings.useStencil ){
 		_settings.depthStencilInternalFormat = GL_DEPTH_STENCIL;
-		#ifdef TARGET_OPENGLES
-			depthAttachment = GL_DEPTH_ATTACHMENT;
-		#else
-			depthAttachment = GL_DEPTH_STENCIL_ATTACHMENT;
-		#endif
+#ifdef TARGET_OPENGLES
+		depthAttachment = GL_DEPTH_ATTACHMENT;
+#else
+		depthAttachment = GL_DEPTH_STENCIL_ATTACHMENT;
+#endif
 	}else if(_settings.useDepth){
 		depthAttachment = GL_DEPTH_ATTACHMENT;
 	}else if(_settings.useStencil){
 		depthAttachment = GL_STENCIL_ATTACHMENT;
 		_settings.depthStencilInternalFormat = GL_STENCIL_INDEX;
 	}
-
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 4 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	// set needed values for allocation on instance settings
 	// the rest will be set by the corresponding methods during allocation
 	settings.width = _settings.width;
 	settings.height = _settings.height;
 	settings.numSamples = _settings.numSamples;
-
+	
 	// create main fbo
 	// this is the main one we bind for drawing into
 	// all the renderbuffers are attached to this (whether MSAA is enabled or not)
 	glGenFramebuffers(1, &fbo);
 	retainFB(fbo);
-
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 5 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	GLint previousFboId = 0;
-
+	
 	// note that we are using a glGetInteger method here, which may stall the pipeline.
-	// in the allocate() method, this is not that tragic since this will not be called 
-	// within the draw() loop. Here, we need not optimise for performance, but for 
+	// in the allocate() method, this is not that tragic since this will not be called
+	// within the draw() loop. Here, we need not optimise for performance, but for
 	// simplicity and readability .
-
+	
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &previousFboId);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 6 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	//- USE REGULAR RENDER BUFFER
 	if(!_settings.depthStencilAsTexture){
 		if(_settings.useDepth && _settings.useStencil){
@@ -603,48 +643,62 @@ void ofFbo::allocate(Settings _settings) {
 			stencilBuffer = createAndAttachRenderbuffer(_settings.depthStencilInternalFormat, depthAttachment);
 			retainRB(stencilBuffer);
 		}
-	//- INSTEAD USE TEXTURE
+		//- INSTEAD USE TEXTURE
 	}else{
 		if(_settings.useDepth || _settings.useStencil){
 			createAndAttachDepthStencilTexture(_settings.textureTarget,_settings.depthStencilInternalFormat,depthAttachment);
-			#ifdef TARGET_OPENGLES
-				// if there's depth and stencil the texture should be attached as
-				// depth and stencil attachments
-				// http://www.khronos.org/registry/gles/extensions/OES/OES_packed_depth_stencil.txt
-				if(_settings.useDepth && _settings.useStencil){
-					glFramebufferTexture2D(GL_FRAMEBUFFER,
-										   GL_STENCIL_ATTACHMENT,
-										   GL_TEXTURE_2D, depthBufferTex.texData.textureID, 0);
-				}
-			#endif
+#ifdef TARGET_OPENGLES
+			// if there's depth and stencil the texture should be attached as
+			// depth and stencil attachments
+			// http://www.khronos.org/registry/gles/extensions/OES/OES_packed_depth_stencil.txt
+			if(_settings.useDepth && _settings.useStencil){
+				glFramebufferTexture2D(GL_FRAMEBUFFER,
+									   GL_STENCIL_ATTACHMENT,
+									   GL_TEXTURE_2D, depthBufferTex.texData.textureID, 0);
+			}
+#endif
 		}
 	}
-    
-    settings.useDepth = _settings.useDepth;
-    settings.useStencil = _settings.useStencil;
-    settings.depthStencilInternalFormat = _settings.depthStencilInternalFormat;
-    settings.depthStencilAsTexture = _settings.depthStencilAsTexture;
-    settings.textureTarget = _settings.textureTarget;
-    settings.wrapModeHorizontal = _settings.wrapModeHorizontal;
-    settings.wrapModeVertical = _settings.wrapModeVertical;
-    settings.maxFilter = _settings.maxFilter;
-    settings.minFilter = _settings.minFilter;
-
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 7 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
+	settings.useDepth = _settings.useDepth;
+	settings.useStencil = _settings.useStencil;
+	settings.depthStencilInternalFormat = _settings.depthStencilInternalFormat;
+	settings.depthStencilAsTexture = _settings.depthStencilAsTexture;
+	settings.textureTarget = _settings.textureTarget;
+	settings.wrapModeHorizontal = _settings.wrapModeHorizontal;
+	settings.wrapModeVertical = _settings.wrapModeVertical;
+	settings.maxFilter = _settings.maxFilter;
+	settings.minFilter = _settings.minFilter;
+	
 	// if we want MSAA, create a new fbo for textures
-	#ifndef TARGET_OPENGLES
-		if(_settings.numSamples){
-			glGenFramebuffers(1, &fboTextures);
-			retainFB(fboTextures);
-		}else{
-			fboTextures = fbo;
-		}
-	#else
+#ifndef TARGET_OPENGLES
+	if(_settings.numSamples){
+		glGenFramebuffers(1, &fboTextures);
+		retainFB(fboTextures);
+	}else{
 		fboTextures = fbo;
-		if(_settings.numSamples){
-			ofLogWarning("ofFbo") << "allocate(): multisampling not supported in OpenGL ES";
-		}
-	#endif
-
+	}
+#else
+	fboTextures = fbo;
+	if(_settings.numSamples){
+		ofLogWarning("ofFbo") << "allocate(): multisampling not supported in OpenGL ES";
+	}
+#endif
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 8 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	// now create all textures and color buffers
 	if(_settings.colorFormats.size() > 0) {
 		for(int i=0; i<(int)_settings.colorFormats.size(); i++) createAndAttachTexture(_settings.colorFormats[i], i);
@@ -657,27 +711,41 @@ void ofFbo::allocate(Settings _settings) {
 	settings.internalformat = _settings.internalformat;
 	
 	dirty.resize(_settings.colorFormats.size(), true); // we start with all color buffers dirty.
-
+	
 	// if textures are attached to a different fbo (e.g. if using MSAA) check it's status
 	if(fbo != fboTextures) {
 		glBindFramebuffer(GL_FRAMEBUFFER, fboTextures);
 	}
-
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 9 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
+	
 	// check everything is ok with this fbo
 	bIsAllocated = checkStatus();
-
+	
 	// restore previous framebuffer id
 	glBindFramebuffer(GL_FRAMEBUFFER, previousFboId);
-
-    /* UNCOMMENT OUTSIDE OF DOING RELEASES
 	
-    // this should never happen
-	if(settings != _settings) ofLogWarning("ofFbo") << "allocation not complete, passed settings not equal to created ones, this is an internal OF bug";
-    
-    */
+	/* UNCOMMENT OUTSIDE OF DOING RELEASES
+	 
+	 // this should never happen
+	 if(settings != _settings) ofLogWarning("ofFbo") << "allocation not complete, passed settings not equal to created ones, this is an internal OF bug";
+	 
+	 */
 #ifdef TARGET_ANDROID
 	ofAddListener(ofxAndroidEvents().reloadGL,this,&ofFbo::reloadFbo);
 #endif
+	
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate 10 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	ofLogNotice( ss.str() );
+#endif // DEBUG_GL_ERRORS
 }
 
 //--------------------------------------------------------------
@@ -718,7 +786,7 @@ GLuint ofFbo::createAndAttachRenderbuffer(GLenum internalFormat, GLenum attachme
 void ofFbo::createAndAttachTexture(GLenum internalFormat, GLenum attachmentPoint) {
 	
 	ofTextureData texData;
-
+	
 	texData.textureTarget = settings.textureTarget;
 	texData.width = settings.width;
 	texData.height = settings.height;
@@ -728,48 +796,48 @@ void ofFbo::createAndAttachTexture(GLenum internalFormat, GLenum attachmentPoint
 	texData.wrapModeVertical = settings.wrapModeVertical;
 	texData.magFilter = settings.maxFilter;
 	texData.minFilter = settings.minFilter;
-
+	
 	ofTexture tex;
 	tex.allocate(texData);
-
-    attachTexture(tex, internalFormat, attachmentPoint);
+	
+	attachTexture(tex, internalFormat, attachmentPoint);
 	dirty.push_back(true);
 	activeDrawBuffers.push_back(GL_COLOR_ATTACHMENT0 + attachmentPoint);
 }
 
 //----------------------------------------------------------
 void ofFbo::attachTexture(ofTexture & tex, GLenum internalFormat, GLenum attachmentPoint) {
-    // bind fbo for textures (if using MSAA this is the newly created fbo, otherwise its the same fbo as before)
+	// bind fbo for textures (if using MSAA this is the newly created fbo, otherwise its the same fbo as before)
 	GLint temp;
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &temp);
 	glBindFramebuffer(GL_FRAMEBUFFER, fboTextures);
-    
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentPoint, tex.texData.textureTarget, tex.texData.textureID, 0);
-    if(attachmentPoint >= textures.size()) {
-        textures.resize(attachmentPoint+1);
-    }
-    textures[attachmentPoint] = tex;
-    
+	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentPoint, tex.texData.textureTarget, tex.texData.textureID, 0);
+	if(attachmentPoint >= textures.size()) {
+		textures.resize(attachmentPoint+1);
+	}
+	textures[attachmentPoint] = tex;
+	
 	settings.colorFormats.resize(attachmentPoint + 1);
 	settings.colorFormats[attachmentPoint] = internalFormat;
 	settings.numColorbuffers = settings.colorFormats.size();
-    
+	
 	// if MSAA, bind main fbo and attach renderbuffer
 	if(settings.numSamples) {
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-        
+		
 		GLuint colorBuffer = createAndAttachRenderbuffer(internalFormat, GL_COLOR_ATTACHMENT0 + attachmentPoint);
 		colorBuffers.push_back(colorBuffer);
 		retainRB(colorBuffer);
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, temp);
-
+	
 }
 
 //----------------------------------------------------------
 void ofFbo::createAndAttachDepthStencilTexture(GLenum target, GLint internalformat, GLenum  attachment, GLenum transferFormat, GLenum transferType){
-
-
+	
+	
 	// allocate depthBufferTex as depth buffer;
 	depthBufferTex.texData.glInternalFormat = internalformat;
 	depthBufferTex.texData.textureTarget = target;
@@ -778,13 +846,13 @@ void ofFbo::createAndAttachDepthStencilTexture(GLenum target, GLint internalform
 	depthBufferTex.texData.height = settings.height;
 	
 	depthBufferTex.allocate(depthBufferTex.texData,transferFormat,transferType);
-
+	
 	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, depthBufferTex.texData.textureID, 0);
 }
 
 //----------------------------------------------------------
 void ofFbo::createAndAttachDepthStencilTexture(GLenum target, GLint internalformat, GLenum  attachment){
-
+	
 	// allocate depthBufferTex as depth buffer;
 	depthBufferTex.texData.glInternalFormat = internalformat;
 	depthBufferTex.texData.textureTarget = target;
@@ -793,7 +861,7 @@ void ofFbo::createAndAttachDepthStencilTexture(GLenum target, GLint internalform
 	depthBufferTex.texData.height = settings.height;
 	
 	depthBufferTex.allocate(depthBufferTex.texData);
-
+	
 	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, depthBufferTex.texData.textureID, 0);
 }
 
@@ -836,10 +904,10 @@ void ofFbo::flagDirty() const{
 		//
 		// All currently active draw buffers need to be flagged dirty
 		//
-		// If a draw buffer has been activated and then de-activated, it has been 
-		// flagged dirty at activation, so we can be sure all buffers which have 
+		// If a draw buffer has been activated and then de-activated, it has been
+		// flagged dirty at activation, so we can be sure all buffers which have
 		// been rendered to are flagged dirty.
-		// 
+		//
 		int numBuffersToFlag = min(dirty.size(), activeDrawBuffers.size());
 		for(int i=0; i < numBuffersToFlag; i++){
 			dirty[i] = true;
@@ -865,20 +933,20 @@ void ofFbo::setActiveDrawBuffer(int i){
 void ofFbo::setActiveDrawBuffers(const vector<int>& ids){
 	if(!bIsAllocated) return;
 #ifndef TARGET_OPENGLES
-    int numBuffers = activeDrawBuffers.size();
+	int numBuffers = activeDrawBuffers.size();
 	activeDrawBuffers.clear();
 	activeDrawBuffers.resize(numBuffers, GL_NONE); // we initialise the vector with GL_NONE, so a buffer will not be written to unless activated.
-    for(int i=0; i < (int)ids.size(); i++){
-      int id = ids[i];
-        if (id < getNumTextures()){
-            GLenum e = GL_COLOR_ATTACHMENT0 + id;
-            activeDrawBuffers[id] = e; // activate requested buffers
+	for(int i=0; i < (int)ids.size(); i++){
+		int id = ids[i];
+		if (id < getNumTextures()){
+			GLenum e = GL_COLOR_ATTACHMENT0 + id;
+			activeDrawBuffers[id] = e; // activate requested buffers
 			dirty[id] = true; // dirty activated draw buffers.
-        }else{
-            ofLogWarning("ofFbo") << "setActiveDrawBuffers(): fbo " << fbo << " couldn't set texture " << i << ", only " << getNumTextures() << "allocated";
-        }
-    }
-    glDrawBuffers(activeDrawBuffers.size(),&activeDrawBuffers[0]);
+		}else{
+			ofLogWarning("ofFbo") << "setActiveDrawBuffers(): fbo " << fbo << " couldn't set texture " << i << ", only " << getNumTextures() << "allocated";
+		}
+	}
+	glDrawBuffers(activeDrawBuffers.size(),&activeDrawBuffers[0]);
 #endif
 }
 
@@ -886,11 +954,11 @@ void ofFbo::setActiveDrawBuffers(const vector<int>& ids){
 void ofFbo::activateAllDrawBuffers(){
 	if(!bIsAllocated) return;
 #ifndef TARGET_OPENGLES
-    vector<int> activeBuffers(getNumTextures(),0);
-    for(int i=0; i < getNumTextures(); i++){
-    	activeBuffers[i] = i;
-    }
-    setActiveDrawBuffers(activeBuffers);
+	vector<int> activeBuffers(getNumTextures(),0);
+	for(int i=0; i < getNumTextures(); i++){
+		activeBuffers[i] = i;
+	}
+	setActiveDrawBuffers(activeBuffers);
 #endif
 }
 
@@ -934,8 +1002,8 @@ ofTexture& ofFbo::getTexture(){
 //----------------------------------------------------------
 ofTexture& ofFbo::getTexture(int attachmentPoint) {
 	updateTexture(attachmentPoint);
-    
-    return textures[attachmentPoint];
+	
+	return textures[attachmentPoint];
 }
 
 //----------------------------------------------------------
@@ -947,8 +1015,8 @@ const ofTexture& ofFbo::getTexture() const{
 const ofTexture& ofFbo::getTexture(int attachmentPoint) const{
 	ofFbo * mutThis = const_cast<ofFbo*>(this);
 	mutThis->updateTexture(attachmentPoint);
-
-    return textures[attachmentPoint];
+	
+	return textures[attachmentPoint];
 }
 
 //----------------------------------------------------------
@@ -1029,21 +1097,21 @@ void ofFbo::updateTexture(int attachmentPoint) {
 		// if fbo != fboTextures, we are dealing with an MSAA enabled FBO.
 		// and we need to blit one fbo into another to see get the texture
 		// content
-
+		
 		if (!ofIsGLProgrammableRenderer()){
 			// save current drawbuffer
 			glPushAttrib(GL_COLOR_BUFFER_BIT);
 		}
-
+		
 		auto renderer = settings.renderer.lock();
 		if(renderer){
 			renderer->bindForBlitting(*this,*this,attachmentPoint);
 			glBlitFramebuffer(0, 0, settings.width, settings.height, 0, 0, settings.width, settings.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 			renderer->unbind(*this);
-		
+			
 			glReadBuffer(GL_BACK);
 		}
-
+		
 		if(!ofIsGLProgrammableRenderer()){
 			// restore current drawbuffer
 			glPopAttrib();
@@ -1061,7 +1129,7 @@ void ofFbo::draw(float x, float y) const{
 //----------------------------------------------------------
 void ofFbo::draw(float x, float y, float width, float height) const{
 	if(!bIsAllocated) return;
-    getTexture().draw(x, y, width, height);
+	getTexture().draw(x, y, width, height);
 }
 
 //----------------------------------------------------------
@@ -1129,9 +1197,9 @@ bool ofFbo::checkStatus() const {
 		default:
 			ofLogError("ofFbo") << "UNKNOWN ERROR " << status;
 			break;
-
+			
 	}
-
+	
 	return false;
 }
 
