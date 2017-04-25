@@ -2,11 +2,23 @@
 #include "ofConstants.h"
 #include "ofAppRunner.h"
 
+#include <sstream>
+
 ofBufferObject::Data::Data()
 :id(0)
 ,size(0)
 ,lastTarget(GL_ARRAY_BUFFER)
 ,useDSA(false){
+
+#ifdef DEBUG_GL_ERRORS
+	stringstream ss;
+	GLint result;
+	ss << "GL Error ofBufferObject::Data 1 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
 	
 	// tig: glGenBuffers does not actually create a buffer, it just 
 	//      returns the next available name, and only a subsequent 
@@ -29,7 +41,25 @@ ofBufferObject::Data::Data()
 	}
 #endif
 
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofBufferObject::Data 3 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	glGenBuffers(1,&id);
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofBufferObject::Data 3 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
 }
 
 ofBufferObject::Data::~Data(){
@@ -42,7 +72,26 @@ ofBufferObject::ofBufferObject()
 }
 
 void ofBufferObject::allocate(){
+#ifdef DEBUG_GL_ERRORS
+	stringstream ss;
+	GLint result;
+	ss << "GL Error ofBufferObject.allocate 1 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	data = shared_ptr<Data>(new Data());
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofBufferObject.allocate 2 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
 }
 
 void ofBufferObject::allocate(GLsizeiptr bytes, GLenum usage){
@@ -109,6 +158,17 @@ GLuint ofBufferObject::getId() const{
 }
 
 void ofBufferObject::setData(GLsizeiptr bytes, const void * data, GLenum usage){
+#ifdef DEBUG_GL_ERRORS
+	stringstream ss;
+	GLint result;
+	ss << "GL Error ofBufferObject.setData 1 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
+
 	if(!this->data) return;
 	this->data->size = bytes;
 
@@ -121,7 +181,27 @@ void ofBufferObject::setData(GLsizeiptr bytes, const void * data, GLenum usage){
 
 	/// --------| invariant: direct state access is not available
 	bind(this->data->lastTarget);
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofBufferObject.setData 2 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	glBufferData(this->data->lastTarget, bytes, data, usage);
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofBufferObject.setData 3 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	unbind(this->data->lastTarget);
 }
 

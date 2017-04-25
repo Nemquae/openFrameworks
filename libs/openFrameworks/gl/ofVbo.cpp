@@ -16,6 +16,7 @@
 
 #include <map>
 #include <set>
+#include <sstream>
 
 bool ofVbo::vaoSupported=true;
 bool ofVbo::vaoChecked=false;
@@ -294,6 +295,17 @@ void ofVbo::setMesh(const ofMesh & mesh, int usage, bool useColors, bool useText
 		ofLogWarning("ofVbo") << "setMesh(): ignoring mesh with no vertices";
 		return;
 	}
+
+#ifdef DEBUG_GL_ERRORS
+	stringstream ss;
+	GLint result;
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 1 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	setVertexData(mesh.getVerticesPointer(),mesh.getNumVertices(),usage);
 	if(mesh.hasColors() && useColors){
 		setColorData(mesh.getColorsPointer(),mesh.getNumColors(),usage);
@@ -301,18 +313,49 @@ void ofVbo::setMesh(const ofMesh & mesh, int usage, bool useColors, bool useText
 	}else{
 		disableColors();
 	}
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 2 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
+
 	if(mesh.hasNormals() && useNormals){
 		setNormalData(mesh.getNormalsPointer(),mesh.getNumNormals(),usage);
 		enableNormals();
 	}else{
 		disableNormals();
 	}
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 3 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	if(mesh.hasTexCoords() && useTextures){
 		setTexCoordData(mesh.getTexCoordsPointer(),mesh.getNumTexCoords(),usage);
 		enableTexCoords();
 	}else{
 		disableTexCoords();
 	}
+
+#ifdef DEBUG_GL_ERRORS
+	ss.clear();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 4 = " << glGetError() << std::endl;
+	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	ss << result << std::endl;
+	ofLogNotice(ss.str());
+#endif // DEBUG_GL_ERRORS
+
 	if(mesh.hasIndices()){
 		setIndexData(mesh.getIndexPointer(), mesh.getNumIndices(), usage);
 		enableIndices();
