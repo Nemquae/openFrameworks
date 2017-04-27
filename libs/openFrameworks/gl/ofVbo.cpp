@@ -297,13 +297,12 @@ void ofVbo::setMesh(const ofMesh & mesh, int usage, bool useColors, bool useText
 	}
 
 #ifdef DEBUG_GL_ERRORS
-	stringstream ss;
-	GLint result;
-	ss << "GL Error ofFbo.allocate ofVbo.setMesh 1 = " << glGetError() << std::endl;
+	stringstream ss; GLint result = glGetError();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 1 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	setVertexData(mesh.getVerticesPointer(),mesh.getNumVertices(),usage);
@@ -315,12 +314,12 @@ void ofVbo::setMesh(const ofMesh & mesh, int usage, bool useColors, bool useText
 	}
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofFbo.allocate ofVbo.setMesh 2 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 2 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 
@@ -332,12 +331,12 @@ void ofVbo::setMesh(const ofMesh & mesh, int usage, bool useColors, bool useText
 	}
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofFbo.allocate ofVbo.setMesh 3 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 3 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	if(mesh.hasTexCoords() && useTextures){
@@ -348,12 +347,12 @@ void ofVbo::setMesh(const ofMesh & mesh, int usage, bool useColors, bool useText
 	}
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofFbo.allocate ofVbo.setMesh 4 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofFbo.allocate ofVbo.setMesh 4 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	if(mesh.hasIndices()){

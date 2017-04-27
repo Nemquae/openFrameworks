@@ -12,12 +12,12 @@ ofBufferObject::Data::Data()
 
 #ifdef DEBUG_GL_ERRORS
 	stringstream ss;
-	GLint result;
-	ss << "GL Error ofBufferObject::Data 1 = " << glGetError() << std::endl;
+	GLint result = glGetError();
+	ss << "GL Error ofBufferObject::Data 1 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 	
 	// tig: glGenBuffers does not actually create a buffer, it just 
@@ -42,23 +42,23 @@ ofBufferObject::Data::Data()
 #endif
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofBufferObject::Data 3 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofBufferObject::Data 3 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	glGenBuffers(1,&id);
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofBufferObject::Data 3 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofBufferObject::Data 3 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 }
 
@@ -73,24 +73,23 @@ ofBufferObject::ofBufferObject()
 
 void ofBufferObject::allocate(){
 #ifdef DEBUG_GL_ERRORS
-	stringstream ss;
-	GLint result;
-	ss << "GL Error ofBufferObject.allocate 1 = " << glGetError() << std::endl;
+	stringstream ss; GLint result = glGetError();
+	ss << "GL Error ofBufferObject.allocate 1 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	data = shared_ptr<Data>(new Data());
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofBufferObject.allocate 2 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofBufferObject.allocate 2 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 }
 
@@ -159,13 +158,12 @@ GLuint ofBufferObject::getId() const{
 
 void ofBufferObject::setData(GLsizeiptr bytes, const void * data, GLenum usage){
 #ifdef DEBUG_GL_ERRORS
-	stringstream ss;
-	GLint result;
-	ss << "GL Error ofBufferObject.setData 1 = " << glGetError() << std::endl;
+	stringstream ss; GLint result = glGetError();
+	ss << "GL Error ofBufferObject.setData 1 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 
@@ -183,23 +181,23 @@ void ofBufferObject::setData(GLsizeiptr bytes, const void * data, GLenum usage){
 	bind(this->data->lastTarget);
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofBufferObject.setData 2 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofBufferObject.setData 2 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	glBufferData(this->data->lastTarget, bytes, data, usage);
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofBufferObject.setData 3 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofBufferObject.setData 3 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	////glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	unbind(this->data->lastTarget);

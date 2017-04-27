@@ -561,7 +561,7 @@ string ofToString(const vector<T>& values) {
 template<class T>
 T ofFromString(const string & value){
 	T data;
-    stringstream ss;
+    stringstream ss; GLint result = glGetError();
     ss << value;
     ss >> data;
     return data;

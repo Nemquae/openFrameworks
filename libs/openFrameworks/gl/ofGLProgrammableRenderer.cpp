@@ -119,13 +119,12 @@ void ofGLProgrammableRenderer::finishRender() {
 void ofGLProgrammableRenderer::draw(const ofMesh & vertexData, ofPolyRenderMode renderType, bool useColors, bool useTextures, bool useNormals) const{
 
 #ifdef DEBUG_GL_ERRORS
-	stringstream ss;
-	GLint result;
-	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 1 = " << glGetError() << std::endl;
+	stringstream ss; GLint result = glGetError();
+	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 1 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	//glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 
@@ -199,23 +198,23 @@ void ofGLProgrammableRenderer::draw(const ofMesh & vertexData, ofPolyRenderMode 
 	meshVbo.setMesh(vertexData, GL_STREAM_DRAW, useColors, useTextures, useNormals);
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 2 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 2 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	//glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	glPolygonMode(GL_FRONT_AND_BACK, ofGetGLPolyMode(renderType));
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 3 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 3 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	//glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	GLenum drawMode = ofGetGLPrimitiveMode(vertexData.getMode());
@@ -244,12 +243,12 @@ void ofGLProgrammableRenderer::draw(const ofMesh & vertexData, ofPolyRenderMode 
 	}
 
 #ifdef DEBUG_GL_ERRORS
-	ss.clear();
-	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 4 = " << glGetError() << std::endl;
+	ss.clear(); result = glGetError();
+	ss << "GL Error ofFbo.allocate ofGLProgrammableRenderer.draw 4 = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	//glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 	
 	// tig: note further that we could glGet() and store the current polygon mode, but don't, since that would
@@ -1341,46 +1340,46 @@ void ofGLProgrammableRenderer::unbind(const ofShader & shader){
 void ofGLProgrammableRenderer::begin(const ofFbo & fbo, bool setupPerspective){
 	
 //#ifdef DEBUG_GL_ERRORS
-//	stringstream ss;
-//	ss << "GL Error ofFbo.allocate 11a = " << glGetError() << std::endl;
+//	stringstream ss; GLint result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11a = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	pushView();
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11b = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11b = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	pushStyle();
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11c = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11c = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	matrixStack.setRenderSurface(fbo);
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11d = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11d = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	viewport();
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11e = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11e = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	if(setupPerspective){
@@ -1390,74 +1389,74 @@ void ofGLProgrammableRenderer::begin(const ofFbo & fbo, bool setupPerspective){
 	}
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11f = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11f = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	bind(fbo);
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11g = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11g = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 }
 
 //----------------------------------------------------------
 void ofGLProgrammableRenderer::end(const ofFbo & fbo){
 //#ifdef DEBUG_GL_ERRORS
-//	stringstream ss;
-//	ss << "GL Error ofFbo.allocate 11h = " << glGetError() << std::endl;
+//	stringstream ss; GLint result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11h = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	unbind(fbo);
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11i = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11i = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	matrixStack.setRenderSurface(*window);
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11j = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11j = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	uploadMatrices();
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11k = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11k = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	popStyle();
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11l = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11l = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	popView();
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 11m = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 11m = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 }
 
@@ -1732,13 +1731,12 @@ void ofGLProgrammableRenderer::drawLine(float x1, float y1, float z1, float x2, 
 void ofGLProgrammableRenderer::drawRectangle(float x, float y, float z, float w, float h) const{
 
 #ifdef DEBUG_GL_ERRORS
-	stringstream ss;
-	GLint result;
-	ss << "GL Error GLProgrammableRenderer.drawRect = " << glGetError() << std::endl;
+	stringstream ss; GLint result = glGetError();
+	ss << "GL Error GLProgrammableRenderer.drawRect = " << result << std::endl;
 	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
+	//glGetIntegerv(GL_FRAMEBUFFER_BINDING, &result);
 	ss << result << std::endl;
-	ofLogNotice(ss.str());
+	if(result != 0) ofLogNotice( ss.str() );
 #endif // DEBUG_GL_ERRORS
 
 	ofGLProgrammableRenderer * mutThis = const_cast<ofGLProgrammableRenderer*>(this);

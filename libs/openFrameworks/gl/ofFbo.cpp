@@ -517,10 +517,10 @@ void ofFbo::allocate(Settings _settings) {
 	if(!checkGLSupport()) return;
 	
 //#ifdef DEBUG_GL_ERRORS
-//	stringstream ss;
-//	ss << "GL Error ofFbo.allocate 1 = " << glGetError() << std::endl;
+//	stringstream ss; GLint result = glGetError();
+//	ss << "GL Error ofFbo.allocate 1 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	clear();
@@ -546,10 +546,10 @@ void ofFbo::allocate(Settings _settings) {
 	}
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 2 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 2 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	//currently depth only works if stencil is enabled.
@@ -567,10 +567,10 @@ void ofFbo::allocate(Settings _settings) {
 	GLenum depthAttachment = GL_DEPTH_ATTACHMENT;
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 3 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 3 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	if( _settings.useDepth && _settings.useStencil ){
@@ -588,10 +588,10 @@ void ofFbo::allocate(Settings _settings) {
 	}
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 4 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 4 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	// set needed values for allocation on instance settings
@@ -607,10 +607,10 @@ void ofFbo::allocate(Settings _settings) {
 	retainFB(fbo);
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 5 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 5 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	GLint previousFboId = 0;
@@ -624,10 +624,10 @@ void ofFbo::allocate(Settings _settings) {
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 6 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 6 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	//- USE REGULAR RENDER BUFFER
@@ -661,10 +661,10 @@ void ofFbo::allocate(Settings _settings) {
 	}
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 7 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 7 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	settings.useDepth = _settings.useDepth;
@@ -693,10 +693,10 @@ void ofFbo::allocate(Settings _settings) {
 #endif
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 8 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 8 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	// now create all textures and color buffers
@@ -718,10 +718,10 @@ void ofFbo::allocate(Settings _settings) {
 	}
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 9 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 9 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 	
 	// check everything is ok with this fbo
@@ -741,10 +741,10 @@ void ofFbo::allocate(Settings _settings) {
 #endif
 	
 //#ifdef DEBUG_GL_ERRORS
-//	ss.clear();
-//	ss << "GL Error ofFbo.allocate 10 = " << glGetError() << std::endl;
+//	ss.clear(); result = glGetError();
+//	ss << "GL Error ofFbo.allocate 10 = " << result << std::endl;
 //	ss << glCheckFramebufferStatus(GL_FRAMEBUFFER) << std::endl;
-//	ofLogNotice( ss.str() );
+//	if(result != 0) ofLogNotice( ss.str() );
 //#endif // DEBUG_GL_ERRORS
 }
 
